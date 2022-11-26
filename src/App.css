@@ -1,0 +1,9 @@
+.MuiStepIcon-root.MuiStepIcon-active {
+    color:black !important;
+}
+.MuiStepLabel-label.Mui-error {
+    color: rgb(244, 75, 75) !important;
+}
+.MuiStepIcon-root.MuiStepIcon-completed {
+    color: #24c52c !important;
+}

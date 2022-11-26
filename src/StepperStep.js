@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import './App.css'
 import {
   Typography,
   TextField,
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 function getSteps() {
   return [
-    "Basic information",
+    "Add to Cart",
     "Contact Information",
     "Personal Information",
     "Payment",
@@ -43,19 +44,19 @@ const BasicForm = () => {
     <>
       <Controller
         control={control}
-        name="firstName"
+        name="ProductName"
         rules={{ required: "this field is required." }}
         render={({ field }) => (
           <TextField
             id="first-name"
-            label="First Name"
-            variant="outlined"
-            placeholder="Enter Your First Name"
+            label="Product Name"
+            
+            placeholder="Product"
             fullWidth
             margin="normal"
             {...field}
-            error={Boolean(errors?.firstName)}
-            helperText={errors.firstName?.message}
+           
+            helperText={errors.ProductName?.message}
           />
         )}
       />
@@ -72,9 +73,8 @@ const ContactForm = () => {
         render={({ field }) => (
           <TextField
             id="email"
-            label="E-mail"
-            variant="outlined"
-            placeholder="Enter Your E-mail Address"
+            label="E-mail"         
+            placeholder="E-mail Address"
             fullWidth
             margin="normal"
             {...field}
@@ -94,8 +94,7 @@ const PersonalForm = () => {
         render={({ field }) => (
           <TextField
             id="address1"
-            label="Address 1"
-            variant="outlined"
+            label="Address"
             placeholder="Enter Your Address 1"
             fullWidth
             margin="normal"
@@ -116,8 +115,7 @@ const PaymentForm = () => {
         render={({ field }) => (
           <TextField
             id="cardNumber"
-            label="Card Number"
-            variant="outlined"
+            label="Payment"
             placeholder="Enter Your Card Number"
             fullWidth
             margin="normal"
@@ -149,9 +147,9 @@ const LinaerStepper = () => {
   const classes = useStyles();
   const methods = useForm({
     defaultValues: {
-      firstName: "",
-      emailAddress: "",
-      address1: "",
+      ProductName: "",
+      email: "",
+      address: "",
       cardNumber: "",
     },
   });
@@ -164,16 +162,13 @@ const LinaerStepper = () => {
   const isStepFalied = () => {
     return Boolean(Object.keys(methods.formState.errors).length);
   };
-  // const isStepSkipped = (step) => {
-  //   return skippedSteps.includes(step);
-  // };
 
   const handleNext = (data) => {
     console.log(data);
     if (activeStep == steps.length - 1) {
       const blogRef = collection(db, "dataSave");
       addDoc(blogRef, {
-        name: data.firstName,
+        name: data.ProductName,
         email: data.emailAddress,
         address: data.address1,
         payment: data.cardNumber,
@@ -193,39 +188,17 @@ const LinaerStepper = () => {
     setActiveStep(activeStep - 1);
   };
 
-  // const handleSkip = () => {
-  //   if (!isStepSkipped(activeStep)) {
-  //     setSkippedSteps([...skippedSteps, activeStep]);
-  //   }
-  //   setActiveStep(activeStep + 1);
-  // };
 
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  // };
   return (
     <div>
       <Stepper alternativeLabel activeStep={activeStep}>
         {steps.map((step, index) => {
           const labelProps = {};
           const stepProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography
-                variant="caption"
-                align="center"
-                style={{ display: "block" }}
-              >
-                optional
-              </Typography>
-            );
-          }
           if (isStepFalied() && activeStep == index) {
             labelProps.error = true;
           }
-          // if (isStepSkipped(index)) {
-          //   stepProps.completed = false;
-          // }
+          
           return (
             <Step {...stepProps} key={index}>
               <StepLabel {...labelProps}>{step}</StepLabel>
@@ -251,20 +224,11 @@ const LinaerStepper = () => {
               >
                 back
               </Button>
-              {/* {isStepOptional(activeStep) && (
-                <Button
-                  className={classes.button}
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSkip}
-                >
-                  skip
-                </Button>
-              )} */}
+            
               <Button
                 className={classes.button}
                 variant="contained"
-                color="primary"
+                color="black"
                 type="submit"
               >
                 {activeStep === steps.length - 1 ? "Finish" : "Next"}
